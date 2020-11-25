@@ -2,7 +2,6 @@ package convert
 
 import (
 	"errors"
-	"fmt"
 	"reflect"
 
 	"github.com/optim-kazuhiro-seida/go-advance-type/ref"
@@ -44,7 +43,6 @@ func CopyCastFields(source, target interface{}) (err error) {
 		if field := sourceRef.Type().Field(i); !field.Anonymous {
 			srcField, dstField := sourceRef.FieldByName(field.Name), targetRef.Elem().FieldByName(field.Name)
 			if srcField.IsValid() && dstField.IsValid() && dstField.CanSet() {
-				fmt.Println(dstField.Type())
 				if _type := dstField.Type(); _type == srcField.Type() {
 					dstField.Set(srcField)
 				} else if _type.String() == "string" {
@@ -107,13 +105,6 @@ func Map2Struct(m map[string]interface{}, val interface{}) error {
 	return UnMarshalJson(byts, val)
 }
 
-func Struct2Map(data interface{}) (result map[string]interface{}) {
-	for i, el, result := 0, reflect.ValueOf(data).Elem(), map[string]interface{}{}; i < el.NumField(); i++ {
-		result[el.Type().Field(i).Name] = el.Field(i).Interface()
-	}
-	return
-}
-
 func Struct2JsonMap(data interface{}) (result map[string]interface{}, _err error) {
 	result = map[string]interface{}{}
 	if byts, err := MarshalJson(data); err != nil {
@@ -125,8 +116,15 @@ func Struct2JsonMap(data interface{}) (result map[string]interface{}, _err error
 	return
 }
 
+func Struct2Map(data interface{}) (result map[string]interface{}) {
+	for i, el, result := 0, ref.Indirect(data), map[string]interface{}{}; i < el.NumField(); i++ {
+		result[el.Type().Field(i).Name] = el.Field(i).Interface()
+	}
+	return
+}
+
 func StructTag2Map(data interface{}, tag string) (result map[string]interface{}) {
-	for i, el, result := 0, reflect.ValueOf(data).Elem(), map[string]interface{}{}; i < el.NumField(); i++ {
+	for i, el, result := 0, ref.Indirect(data), map[string]interface{}{}; i < el.NumField(); i++ {
 		result[el.Type().Field(i).Tag.Get(tag)] = el.Field(i).Interface()
 	}
 	return
