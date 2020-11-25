@@ -176,6 +176,8 @@ func MustUint8(in interface{}) (result uint8) {
 
 func Int(in interface{}) (int, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case float32:
 		return int(v), nil
 	case float64:
@@ -224,6 +226,8 @@ func Int(in interface{}) (int, error) {
 }
 func Int8(in interface{}) (int8, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case float32:
 		return int8(v), nil
 	case float64:
@@ -272,6 +276,8 @@ func Int8(in interface{}) (int8, error) {
 }
 func Int16(in interface{}) (int16, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case float32:
 		return int16(v), nil
 	case float64:
@@ -370,6 +376,8 @@ func Int32(in interface{}) (int32, error) {
 }
 func Int64(in interface{}) (int64, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case float32:
 		return int64(v), nil
 	case float64:
@@ -422,7 +430,7 @@ func Str(in interface{}) (string, error) {
 	case reflect.Value:
 		return Str(v.Interface())
 	case nil:
-		return "", _err
+		return "", nil
 	case float32:
 		return strconv.FormatFloat(float64(v), 'f', -1, 32), nil
 	case float64:
@@ -478,6 +486,8 @@ func Str(in interface{}) (string, error) {
 }
 func Float32(in interface{}) (float32, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Float32(v.Interface())
 	case float32:
@@ -526,6 +536,8 @@ func Float32(in interface{}) (float32, error) {
 }
 func Float64(in interface{}) (float64, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Float64(v.Interface())
 	case float32:
@@ -566,6 +578,8 @@ func Float64(in interface{}) (float64, error) {
 }
 func Duration(in interface{}) (time.Duration, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Duration(v.Interface())
 	case time.Duration:
@@ -586,6 +600,8 @@ func Duration(in interface{}) (time.Duration, error) {
 }
 func Bool(in interface{}) (bool, error) {
 	switch v := in.(type) {
+	case nil:
+		return false, nil
 	case reflect.Value:
 		return Bool(v.Interface())
 	case int:
@@ -629,6 +645,8 @@ var uintErr = errors.New("cant cant to uint")
 
 func Uint(in interface{}) (uint, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Uint(v.Interface())
 	case string:
@@ -696,6 +714,8 @@ func Uint(in interface{}) (uint, error) {
 }
 func Uint64(in interface{}) (uint64, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Uint64(v.Interface())
 	case string:
@@ -763,6 +783,8 @@ func Uint64(in interface{}) (uint64, error) {
 }
 func Uint32(in interface{}) (uint32, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Uint32(v.Interface())
 	case string:
@@ -830,6 +852,8 @@ func Uint32(in interface{}) (uint32, error) {
 }
 func Uint16(in interface{}) (uint16, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Uint16(v.Interface())
 	case string:
@@ -897,6 +921,8 @@ func Uint16(in interface{}) (uint16, error) {
 }
 func Uint8(in interface{}) (uint8, error) {
 	switch v := in.(type) {
+	case nil:
+		return 0, nil
 	case reflect.Value:
 		return Uint8(v.Interface())
 	case string:
