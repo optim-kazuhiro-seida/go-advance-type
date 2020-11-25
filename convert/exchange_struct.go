@@ -2,6 +2,7 @@ package convert
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 
 	"github.com/optim-kazuhiro-seida/go-advance-type/ref"
@@ -43,26 +44,54 @@ func CopyCastFields(source, target interface{}) (err error) {
 		if field := sourceRef.Type().Field(i); !field.Anonymous {
 			srcField, dstField := sourceRef.FieldByName(field.Name), targetRef.Elem().FieldByName(field.Name)
 			if srcField.IsValid() && dstField.IsValid() && dstField.CanSet() {
+				fmt.Println(dstField.Type())
 				if _type := dstField.Type(); _type == srcField.Type() {
 					dstField.Set(srcField)
-				} else if _type.String() == "string" || _type.String() == "*string" {
+				} else if _type.String() == "string" {
 					dstField.Set(reflect.ValueOf(MustStr(srcField)))
-				} else if _type.String() == "int" || _type.String() == "*int" {
+				} else if _type.String() == "int" {
 					dstField.Set(reflect.ValueOf(MustInt(srcField)))
-				} else if _type.String() == "int8" || _type.String() == "*int8" {
+				} else if _type.String() == "int8" {
 					dstField.Set(reflect.ValueOf(MustInt8(srcField)))
-				} else if _type.String() == "int16" || _type.String() == "*int16" {
+				} else if _type.String() == "int16" {
 					dstField.Set(reflect.ValueOf(MustInt16(srcField)))
-				} else if _type.String() == "int32" || _type.String() == "*int32" {
+				} else if _type.String() == "int32" {
 					dstField.Set(reflect.ValueOf(MustInt32(srcField)))
-				} else if _type.String() == "int64" || _type.String() == "*int64" {
+				} else if _type.String() == "int64" {
 					dstField.Set(reflect.ValueOf(MustInt64(srcField)))
-				} else if _type.String() == "float32" || _type.String() == "*float32" {
+				} else if _type.String() == "float32" {
 					dstField.Set(reflect.ValueOf(MustFloat32(srcField)))
-				} else if _type.String() == "float64" || _type.String() == "*float64" {
+				} else if _type.String() == "float64" {
 					dstField.Set(reflect.ValueOf(MustFloat64(srcField)))
-				} else if _type.String() == "bool" || _type.String() == "*bool" {
+				} else if _type.String() == "bool" {
 					dstField.Set(reflect.ValueOf(MustBool(srcField)))
+				} else if _type.String() == "*string" {
+					tmp := MustStr(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*int" {
+					tmp := MustInt(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*int8" {
+					tmp := MustInt8(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*int16" {
+					tmp := MustInt16(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*int32" {
+					tmp := MustInt32(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*int64" {
+					tmp := MustInt64(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*float32" {
+					tmp := MustFloat32(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*float64" {
+					tmp := MustFloat64(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
+				} else if _type.String() == "*bool" {
+					tmp := MustBool(srcField)
+					dstField.Set(reflect.ValueOf(&tmp))
 				}
 			}
 		}

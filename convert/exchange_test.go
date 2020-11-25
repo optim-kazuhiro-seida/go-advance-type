@@ -151,7 +151,7 @@ func TestMapStruct(t *testing.T) {
 		}
 		b struct {
 			One   string
-			Two   int32
+			Two   *int32
 			Three bool
 			Four  float64
 			test  string
@@ -163,7 +163,7 @@ func TestMapStruct(t *testing.T) {
 		Two:   10,
 		Three: true,
 		test:  "test",
-	}, &out); err != nil || out.One != "test" || out.Two != 10 {
+	}, &out); err != nil || out.One != "test" || *out.Two != 10 {
 		t.Fatal(out)
 	} else {
 		t.Log(out)
@@ -174,10 +174,10 @@ func TestMapStruct(t *testing.T) {
 		Two:   10,
 		Three: true,
 		test:  "test",
-	}, &out); err != nil || out.One != "test" || out.Two != 10 {
+	}, &out); err != nil || out.One != "test" || *out.Two != 10 {
 		t.Fatal(out)
 	} else {
-		t.Log(out)
+		t.Log(out, *out.Two)
 	}
 }
 func TestExchange(t *testing.T) {
