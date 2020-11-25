@@ -127,6 +127,8 @@ func StructTag2Map(data interface{}, tag string) (result map[string]interface{})
 	for i, el := 0, ref.Indirect(data); i < el.NumField(); i++ {
 		if key, ok := el.Type().Field(i).Tag.Lookup(tag); ok {
 			result[key] = el.Field(i).Interface()
+		} else {
+			result[el.Type().Field(i).Name] = el.Field(i).Interface()
 		}
 	}
 	return
