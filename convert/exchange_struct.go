@@ -23,12 +23,10 @@ func CopyFields(source, target interface{}) (err error) {
 		err = errors.New(" not pointer variable")
 		return
 	}
-
-	resourceRef := ref.Indirect(source)
-	for i := 0; i < resourceRef.Type().NumField(); i++ {
-		if field := resourceRef.Type().Field(i); !field.Anonymous {
+	for i, sourceRef := 0, ref.Indirect(source); i < sourceRef.Type().NumField(); i++ {
+		if field := sourceRef.Type().Field(i); !field.Anonymous {
 			name := field.Name
-			if srcField, dstField := resourceRef.FieldByName(name), targetRef.Elem().FieldByName(name); srcField.IsValid() &&
+			if srcField, dstField := sourceRef.FieldByName(name), targetRef.Elem().FieldByName(name); srcField.IsValid() &&
 				dstField.IsValid() &&
 				srcField.Type() == dstField.Type() {
 				dstField.Set(srcField)
@@ -69,4 +67,17 @@ func StructTag2Map(data interface{}, tag string) (result map[string]interface{})
 		result[el.Type().Field(i).Tag.Get(tag)] = el.Field(i).Interface()
 	}
 	return
+}
+
+func StructJsonTag2Map(data interface{}) map[string]interface{} {
+	return StructTag2Map(data, "json")
+}
+func StructYamlTag2Map(data interface{}) map[string]interface{} {
+	return StructTag2Map(data, "yaml")
+}
+func StructYmlTag2Map(data interface{}) map[string]interface{} {
+	return StructTag2Map(data, "yml")
+}
+func StructDbTag2Map(data interface{}) map[string]interface{} {
+	return StructTag2Map(data, "db")
 }
