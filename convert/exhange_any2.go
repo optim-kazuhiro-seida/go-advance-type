@@ -645,8 +645,6 @@ var uintErr = errors.New("cant cant to uint")
 
 func Uint(in interface{}) (uint, error) {
 	switch v := in.(type) {
-	case nil:
-		return 0, nil
 	case reflect.Value:
 		return Uint(v.Interface())
 	case string:
@@ -714,8 +712,6 @@ func Uint(in interface{}) (uint, error) {
 }
 func Uint64(in interface{}) (uint64, error) {
 	switch v := in.(type) {
-	case nil:
-		return 0, nil
 	case reflect.Value:
 		return Uint64(v.Interface())
 	case string:
@@ -783,8 +779,6 @@ func Uint64(in interface{}) (uint64, error) {
 }
 func Uint32(in interface{}) (uint32, error) {
 	switch v := in.(type) {
-	case nil:
-		return 0, nil
 	case reflect.Value:
 		return Uint32(v.Interface())
 	case string:
@@ -911,8 +905,6 @@ func Uint16(in interface{}) (uint16, error) {
 		return v, nil
 	case uint8:
 		return uint16(v), nil
-	case nil:
-		return 0, nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
 		return Uint16(r.Elem().Interface())
@@ -921,8 +913,6 @@ func Uint16(in interface{}) (uint16, error) {
 }
 func Uint8(in interface{}) (uint8, error) {
 	switch v := in.(type) {
-	case nil:
-		return 0, nil
 	case reflect.Value:
 		return Uint8(v.Interface())
 	case string:
