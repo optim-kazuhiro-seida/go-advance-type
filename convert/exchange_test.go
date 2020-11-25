@@ -151,8 +151,8 @@ func TestMapStruct(t *testing.T) {
 		}
 		b struct {
 			One   string
-			Two   *int32
-			Three bool
+			Two   *int32 `json:"two"`
+			Three bool   `json:"three22"`
 			Four  float64
 			test  string
 		}
@@ -178,6 +178,11 @@ func TestMapStruct(t *testing.T) {
 		t.Fatal(out)
 	} else {
 		t.Log(out, *out.Two)
+	}
+	if mp := StructJsonTag2Map(out); mp["three22"] != true || MustInt(mp["two"]) != 10 {
+		t.Fatal(mp)
+	} else {
+		t.Log(mp)
 	}
 }
 func TestExchange(t *testing.T) {

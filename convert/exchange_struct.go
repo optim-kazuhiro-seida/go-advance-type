@@ -7,8 +7,6 @@ import (
 	"github.com/optim-kazuhiro-seida/go-advance-type/ref"
 )
 
-type Map map[string]interface{}
-
 func DeepCopy(source, target interface{}) error {
 	if byts, err := MarshalJson(source); err != nil {
 		return err
@@ -117,15 +115,19 @@ func Struct2JsonMap(data interface{}) (result map[string]interface{}, _err error
 }
 
 func Struct2Map(data interface{}) (result map[string]interface{}) {
-	for i, el, result := 0, ref.Indirect(data), map[string]interface{}{}; i < el.NumField(); i++ {
+	result = map[string]interface{}{}
+	for i, el := 0, ref.Indirect(data); i < el.NumField(); i++ {
 		result[el.Type().Field(i).Name] = el.Field(i).Interface()
 	}
 	return
 }
 
 func StructTag2Map(data interface{}, tag string) (result map[string]interface{}) {
-	for i, el, result := 0, ref.Indirect(data), map[string]interface{}{}; i < el.NumField(); i++ {
-		result[el.Type().Field(i).Tag.Get(tag)] = el.Field(i).Interface()
+	result = map[string]interface{}{}
+	for i, el := 0, ref.Indirect(data); i < el.NumField(); i++ {
+		if key, ok := el.Type().Field(i).Tag.Lookup(tag); ok {
+			result[key] = el.Field(i).Interface()
+		}
 	}
 	return
 }
