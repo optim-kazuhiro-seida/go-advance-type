@@ -109,6 +109,13 @@ func SafeStr(in interface{}, defaultStr string) string {
 	}
 	return result
 }
+func SafeBool(in interface{}, defaultVal bool) bool {
+	result, err := Bool(in)
+	if err != nil {
+		result = defaultVal
+	}
+	return result
+}
 
 func MustInt64(in interface{}) (result int64) {
 	result, _ = Int64(in)
@@ -140,6 +147,10 @@ func MustFloat32(in interface{}) (result float32) {
 }
 func MustStr(in interface{}) (result string) {
 	result, _ = Str(in)
+	return
+}
+func MustBool(in interface{}) (result bool) {
+	result, _ = Bool(in)
 	return
 }
 func MustUint(in interface{}) (result uint) {

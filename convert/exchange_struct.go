@@ -25,11 +25,45 @@ func CopyFields(source, target interface{}) (err error) {
 	}
 	for i, sourceRef := 0, ref.Indirect(source); i < sourceRef.Type().NumField(); i++ {
 		if field := sourceRef.Type().Field(i); !field.Anonymous {
-			name := field.Name
-			if srcField, dstField := sourceRef.FieldByName(name), targetRef.Elem().FieldByName(name); srcField.IsValid() &&
-				dstField.IsValid() &&
-				srcField.Type() == dstField.Type() {
+			srcField, dstField := sourceRef.FieldByName(field.Name), targetRef.Elem().FieldByName(field.Name)
+			if srcField.IsValid() && dstField.IsValid() && dstField.CanSet() && dstField.Type() == srcField.Type() {
 				dstField.Set(srcField)
+			}
+		}
+	}
+	return
+}
+func CopyCastFields(source, target interface{}) (err error) {
+	targetRef := reflect.ValueOf(target)
+	if targetRef.Kind() != reflect.Ptr {
+		err = errors.New(" not pointer variable")
+		return
+	}
+	for i, sourceRef := 0, ref.Indirect(source); i < sourceRef.Type().NumField(); i++ {
+		if field := sourceRef.Type().Field(i); !field.Anonymous {
+			srcField, dstField := sourceRef.FieldByName(field.Name), targetRef.Elem().FieldByName(field.Name)
+			if srcField.IsValid() && dstField.IsValid() && dstField.CanSet() {
+				if _type := dstField.Type(); _type == srcField.Type() {
+					dstField.Set(srcField)
+				} else if _type.String() == "string" || _type.String() == "*string" {
+					dstField.Set(reflect.ValueOf(MustStr(srcField)))
+				} else if _type.String() == "int" || _type.String() == "*int" {
+					dstField.Set(reflect.ValueOf(MustInt(srcField)))
+				} else if _type.String() == "int8" || _type.String() == "*int8" {
+					dstField.Set(reflect.ValueOf(MustInt8(srcField)))
+				} else if _type.String() == "int16" || _type.String() == "*int16" {
+					dstField.Set(reflect.ValueOf(MustInt16(srcField)))
+				} else if _type.String() == "int32" || _type.String() == "*int32" {
+					dstField.Set(reflect.ValueOf(MustInt32(srcField)))
+				} else if _type.String() == "int64" || _type.String() == "*int64" {
+					dstField.Set(reflect.ValueOf(MustInt64(srcField)))
+				} else if _type.String() == "float32" || _type.String() == "*float32" {
+					dstField.Set(reflect.ValueOf(MustFloat32(srcField)))
+				} else if _type.String() == "float64" || _type.String() == "*float64" {
+					dstField.Set(reflect.ValueOf(MustFloat64(srcField)))
+				} else if _type.String() == "bool" || _type.String() == "*bool" {
+					dstField.Set(reflect.ValueOf(MustBool(srcField)))
+				}
 			}
 		}
 	}

@@ -141,6 +141,45 @@ func TestAny2Int(t *testing.T) {
 	}
 
 }
+func TestMapStruct(t *testing.T) {
+	type (
+		a struct {
+			One   string
+			Two   int32
+			Three bool
+			test  string
+		}
+		b struct {
+			One   string
+			Two   int32
+			Three bool
+			Four  float64
+			test  string
+		}
+	)
+	out := b{}
+	if err := CopyCastFields(a{
+		One:   "test",
+		Two:   10,
+		Three: true,
+		test:  "test",
+	}, &out); err != nil || out.One != "test" || out.Two != 10 {
+		t.Fatal(out)
+	} else {
+		t.Log(out)
+	}
+	out = b{}
+	if err := CopyCastFields(a{
+		One:   "test",
+		Two:   10,
+		Three: true,
+		test:  "test",
+	}, &out); err != nil || out.One != "test" || out.Two != 10 {
+		t.Fatal(out)
+	} else {
+		t.Log(out)
+	}
+}
 func TestExchange(t *testing.T) {
 	//if i := Str2Int("9223372036854775807", 0); i != 9223372036854775807 {
 	//	t.Fatal("Unexpect Value func Str2Int.", i)

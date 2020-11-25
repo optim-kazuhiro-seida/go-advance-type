@@ -5,7 +5,7 @@ import (
 )
 
 func IsBool(val interface{}) bool {
-	return val == (0 == 0) || val == (0 != 0)
+	return val == true || val == false
 }
 
 func IsNil(i interface{}) (result bool) {
