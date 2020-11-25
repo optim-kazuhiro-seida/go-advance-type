@@ -1,17 +1,41 @@
 package convert
 
 import (
+	"errors"
 	"reflect"
+
+	"github.com/optim-kazuhiro-seida/go-advance-type/ref"
 )
 
 type Map map[string]interface{}
 
-func DeepCopy(target, source interface{}) error {
+func DeepCopy(source, target interface{}) error {
 	if byts, err := MarshalJson(source); err != nil {
 		return err
 	} else {
 		return UnMarshalJson(byts, target)
 	}
+}
+
+func CopyFields(source, target interface{}) (err error) {
+	targetRef := reflect.ValueOf(target)
+	if targetRef.Kind() != reflect.Ptr {
+		err = errors.New(" not pointer variable")
+		return
+	}
+
+	resourceRef := ref.Indirect(source)
+	for i := 0; i < resourceRef.Type().NumField(); i++ {
+		if field := resourceRef.Type().Field(i); !field.Anonymous {
+			name := field.Name
+			if srcField, dstField := resourceRef.FieldByName(name), targetRef.Elem().FieldByName(name); srcField.IsValid() &&
+				dstField.IsValid() &&
+				srcField.Type() == dstField.Type() {
+				dstField.Set(srcField)
+			}
+		}
+	}
+	return
 }
 
 func Map2Struct(m map[string]interface{}, val interface{}) error {
