@@ -130,8 +130,6 @@ func StructTag2Map(data interface{}, tag string) (result map[string]interface{})
 			if keys := strings.Split(key, ","); len(keys) > 0 {
 				result[keys[0]] = el.Field(i).Interface()
 			}
-		} else {
-			result[el.Type().Field(i).Name] = el.Field(i).Interface()
 		}
 	}
 	return
