@@ -3,6 +3,7 @@ package convert
 import (
 	"errors"
 	"reflect"
+	"strings"
 
 	"github.com/optim-kazuhiro-seida/go-advance-type/ref"
 )
@@ -126,7 +127,9 @@ func StructTag2Map(data interface{}, tag string) (result map[string]interface{})
 	result = map[string]interface{}{}
 	for i, el := 0, ref.Indirect(data); i < el.NumField(); i++ {
 		if key, ok := el.Type().Field(i).Tag.Lookup(tag); ok {
-			result[key] = el.Field(i).Interface()
+			if keys := strings.Split(key, ","); len(keys) > 0 {
+				result[keys[0]] = el.Field(i).Interface()
+			}
 		} else {
 			result[el.Type().Field(i).Name] = el.Field(i).Interface()
 		}
