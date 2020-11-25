@@ -45,5 +45,5 @@ func (self *Resource) EncodeBase64() string {
 }
 
 func (self *Resource) IndentJson() (string, error) {
-	return convert.IndentJson(string(self.AsPrimitive()))
+	return convert.IndentJson(self.AsPrimitive())
 }

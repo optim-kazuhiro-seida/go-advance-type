@@ -185,6 +185,33 @@ func TestMapStruct(t *testing.T) {
 		t.Log(mp)
 	}
 }
+func TestJson(t *testing.T) {
+	type T struct {
+		Test   string
+		Sample string
+	}
+	var target T
+	if v, err := IndentJson(T{Test: "test", Sample: "sample"}); err != nil || v != "{\n  \"Test\": \"test\",\n  \"Sample\": \"sample\"\n}" {
+		t.Error("Fail IndentJson ", v, err)
+	} else {
+		t.Log(v)
+	}
+	if v, err := CompactJSON(T{Test: "test", Sample: "sample"}); err != nil || v != "{\"Test\":\"test\",\"Sample\":\"sample\"}" {
+		t.Error("Fail IndentJson ", v, err)
+	} else {
+		t.Log(v)
+	}
+	if err := UnMarshalJson(T{Test: "test", Sample: "sample"}, &target); err != nil || MustCompactJSON(target) != "{\"Test\":\"test\",\"Sample\":\"sample\"}" {
+		t.Error("Fail IndentJson ", target, err)
+	} else {
+		t.Log(MustCompactJSON(target))
+	}
+	if j := MustMarshalJson(target); MustCompactJSON(j) != "{\"Test\":\"test\",\"Sample\":\"sample\"}" {
+		t.Error("Fail IndentJson ", target)
+	} else {
+		t.Log(j, MustStr(j))
+	}
+}
 func TestExchange(t *testing.T) {
 	//if i := Str2Int("9223372036854775807", 0); i != 9223372036854775807 {
 	//	t.Fatal("Unexpect Value func Str2Int.", i)

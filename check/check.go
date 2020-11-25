@@ -18,7 +18,7 @@ func IsNil(i interface{}) (result bool) {
 }
 
 func IsPtr(in interface{}) bool {
-	return reflect.ValueOf(in).Kind() != reflect.Ptr
+	return reflect.ValueOf(in).Kind() == reflect.Ptr
 }
 
 func IsNumber(in interface{}) bool {

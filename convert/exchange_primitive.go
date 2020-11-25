@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"math"
 	"time"
+	"unsafe"
 
 	. "github.com/optim-kazuhiro-seida/go-advance-type/util"
 )
@@ -70,4 +71,7 @@ func Uint64AsInt64(ui uint64) int64 {
 	return Is(ui > math.MaxInt64).
 		Ok(int64(ui - math.MaxUint64 - 1)).
 		No(int64(ui)).Value().AsInt64()
+}
+func Str2Bytes(s string) []byte {
+	return *(*[]byte)(unsafe.Pointer(&s))
 }
