@@ -215,13 +215,13 @@ func TestJson(t *testing.T) {
 	}
 	_t := T{Test: "test"}
 	_tmap, _ := Struct2JsonMap(_t)
-	if !AreEqualJSON(_t, _tmap) {
+	if !AreEqualJson(_t, _tmap) {
 		t.Error("Fail CompareJson ", _t)
 	}
-	if !AreEqualJSON(_t, map[string]interface{}{"test": "test", "sample": ""}) {
+	if !AreEqualJson(_t, map[string]interface{}{"test": "test", "sample": ""}) {
 		t.Error("Fail CompareJson ", _t)
 	}
-	if !AreEqualJSON(_t, MustJson(_t)) {
+	if !AreEqualJson(_t, MustJson(_t)) {
 		t.Error("Fail CompareJson ", _t)
 	}
 }

@@ -100,7 +100,7 @@ func CompactJson(data interface{}) (result string, err error) {
 	}
 	return
 }
-func AreEqualJSON(data1, data2 interface{}) bool {
+func AreEqualJson(data1, data2 interface{}) bool {
 	if reflect.DeepEqual(data1, data2) {
 		return true
 	}
