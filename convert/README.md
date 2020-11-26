@@ -1,32 +1,78 @@
 # Convert Utils
 
-## Cast to primitive
+## Cast
 
 support
 
 int, int8, int16, int32, int64, float32, float64, bool, string
+
 ```go 
 import (
     "github.com/optim-kazuhiro-seida/go-advance-type/convert"
 )
 
 func main() {
-	a := convert.MustStr(120)             // var a string = "120" : Same SafeStr(120, "")
-	b := convert.MustInt("120")           // var b int = 120      : Same SafeInt("120", 0)
-	c := convert.MustInt64([]byte("120")) // var c int64 = 120    : Same SafeInt64([]byte("120"), 0)
+	a := convert.MustStr(120)  // Same SafeStr(120, "")
+	b := convert.MustInt("120") // Same SafeInt("120", 0)
+	c := convert.MustInt64([]byte("120"))  // Same SafeInt64([]byte("120"), 0)
+        // var a string = "120" 
+        // var b int = 120      
+        // var c int64 = 120    
+       
+
 
 	// With default value
-	d := convert.SafeInt32(struct{}{}, 21)    // var d int32  = 21
-	e := convert.SafeFloat32([]byte(""), 1.2) // var e float32 = 1.2
+
+	d := convert.SafeInt32(struct{}{}, 21)
+	e := convert.SafeFloat32([]byte(""), 1.2)
+        // var d int32  = 21
+        // var e float32 = 1.2
+
 
 	// If you wants to handle err
-	f, err := convert.Float64("hogehoge") // error
-	g, err := convert.Bool("gegege")      // error
+
+	f, err := convert.Float64("hogehoge") 
+	g, err := convert.Bool("gegege")      
+        // error
+        // error
 
 }
 ```
 
-## Convert struct and map
+## Json
+
+Powered by [jsoniter](https://github.com/json-iterator/go)
+```go
+import (
+    "github.com/optim-kazuhiro-seida/go-advance-type/convert"
+)
+
+func main() {
+    type T1 struct {
+        Test   string
+        Sample string
+    }
+    t1 := T1{Test: "test", Sample: "sample"}
+    
+    jsonStr, err := IndentJson(t1) 
+    //  jsonStr = "{\n  \"Test\": \"test\",\n  \"Sample\": \"sample\"\n}"
+    
+    jsonStr, err := CompactJson(t1)
+    //  jsonStr = "{\"Test\":\"test\",\"Sample\":\"sample\"}"  
+    
+    err := UnMarshalJson(t1}, &hogehoge)
+    err := MarshalJson(t1) 
+
+    
+    AreEqualJSON(t1, CompactJson(t1))
+    // true
+    AreEqualJSON(t1, map[string]interface{}{"Test": "test", "Sample": "sample"}) 
+    // true
+}
+```
+
+
+## Convert
 
 ```go
 import (
@@ -41,7 +87,7 @@ func main() {
 }
 ```
 
-## Exchange to ptr variable
+## Exchange
 
 ```go
 import (

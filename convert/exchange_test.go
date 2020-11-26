@@ -189,29 +189,40 @@ func TestMapStruct(t *testing.T) {
 }
 func TestJson(t *testing.T) {
 	type T struct {
-		Test   string
-		Sample string
+		Test   string `json:"test"`
+		Sample string `json:"sample"`
 	}
 	var target T
-	if v, err := IndentJson(T{Test: "test", Sample: "sample"}); err != nil || v != "{\n  \"Test\": \"test\",\n  \"Sample\": \"sample\"\n}" {
+	if v, err := IndentJson(T{Test: "test", Sample: "sample"}); err != nil || v != "{\n  \"test\": \"test\",\n  \"sample\": \"sample\"\n}" {
 		t.Error("Fail IndentJson ", v, err)
 	} else {
 		t.Log(v)
 	}
-	if v, err := CompactJSON(T{Test: "test", Sample: "sample"}); err != nil || v != "{\"Test\":\"test\",\"Sample\":\"sample\"}" {
-		t.Error("Fail IndentJson ", v, err)
+	if v, err := CompactJson(T{Test: "test", Sample: "sample"}); err != nil || v != "{\"test\":\"test\",\"sample\":\"sample\"}" {
+		t.Error("Fail CompactJson ", v, err)
 	} else {
 		t.Log(v)
 	}
-	if err := UnMarshalJson(T{Test: "test", Sample: "sample"}, &target); err != nil || MustCompactJSON(target) != "{\"Test\":\"test\",\"Sample\":\"sample\"}" {
-		t.Error("Fail IndentJson ", target, err)
+	if err := UnMarshalJson(T{Test: "test", Sample: "sample"}, &target); err != nil || MustCompactJson(target) != "{\"test\":\"test\",\"sample\":\"sample\"}" {
+		t.Error("Fail UnMarshalJson ", target, err)
 	} else {
-		t.Log(MustCompactJSON(target))
+		t.Log(MustCompactJson(target))
 	}
-	if j := MustMarshalJson(target); MustCompactJSON(j) != "{\"Test\":\"test\",\"Sample\":\"sample\"}" {
-		t.Error("Fail IndentJson ", target)
+	if j := MustMarshalJson(target); MustCompactJson(j) != "{\"test\":\"test\",\"sample\":\"sample\"}" {
+		t.Error("Fail MustMarshalJson ", target)
 	} else {
 		t.Log(j, MustStr(j))
+	}
+	_t := T{Test: "test"}
+	_tmap, _ := Struct2JsonMap(_t)
+	if !AreEqualJSON(_t, _tmap) {
+		t.Error("Fail CompareJson ", _t)
+	}
+	if !AreEqualJSON(_t, map[string]interface{}{"test": "test", "sample": ""}) {
+		t.Error("Fail CompareJson ", _t)
+	}
+	if !AreEqualJSON(_t, MustJson(_t)) {
+		t.Error("Fail CompareJson ", _t)
 	}
 }
 func TestExchange(t *testing.T) {
