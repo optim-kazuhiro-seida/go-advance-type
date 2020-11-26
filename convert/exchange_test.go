@@ -74,6 +74,8 @@ func TestAny2Str(t *testing.T) {
 }
 
 func TestAny2Int(t *testing.T) {
+	var temp *bool = nil
+	Bool(temp)
 	var (
 		test  = "1010"
 		Cases = []testCase{
@@ -213,18 +215,6 @@ func TestJson(t *testing.T) {
 	}
 }
 func TestExchange(t *testing.T) {
-	//if i := Str2Int("9223372036854775807", 0); i != 9223372036854775807 {
-	//	t.Fatal("Unexpect Value func Str2Int.", i)
-	//}
-	//if i := Str2Int("hogehoge", 999); i != 999 {
-	//	t.Fatal("Unexpect Value func Str2Int.", i)
-	//}
-	//if i := Str2Int32("9223372036854775807", 0); i != 0 {
-	//	t.Fatal("Unexpect Value func Str2Int32.", i)
-	//}
-	//if i := Str2Int32("hogehoge", 999); i != 999 {
-	//	t.Fatal("Unexpect Value func Str2Int32.", i)
-	//}
 	if v := SafeInt(interface{}(100), 10); v != 100 {
 		t.Fatal("Unexpect Value func Any2Int.", v)
 	}

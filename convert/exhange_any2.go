@@ -220,6 +220,9 @@ func Int(in interface{}) (int, error) {
 		return Int(v.Interface())
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Int(r.Elem().Interface())
 	}
 	return 0, _err
@@ -270,6 +273,9 @@ func Int8(in interface{}) (int8, error) {
 		return Int8(v.Interface())
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Int8(r.Elem().Interface())
 	}
 	return 0, _err
@@ -320,6 +326,9 @@ func Int16(in interface{}) (int16, error) {
 		return Int16(v.Interface())
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Int16(r.Elem().Interface())
 	}
 	return 0, _err
@@ -370,6 +379,10 @@ func Int32(in interface{}) (int32, error) {
 		return Int32(v.Interface())
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
+
 		return Int32(r.Elem().Interface())
 	}
 	return 0, _err
@@ -420,6 +433,9 @@ func Int64(in interface{}) (int64, error) {
 		return Int64(v.Interface())
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Int64(r.Elem().Interface())
 	}
 	return 0, _err
@@ -480,6 +496,9 @@ func Str(in interface{}) (string, error) {
 		return in.(error).Error(), nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return "", nil
+		}
 		return Str(r.Elem().Interface())
 	}
 	return fmt.Sprintf("%v", in), nil
@@ -530,6 +549,9 @@ func Float32(in interface{}) (float32, error) {
 		}
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Float32(r.Elem().Interface())
 	}
 	return 0, _err
@@ -572,6 +594,9 @@ func Float64(in interface{}) (float64, error) {
 		return strconv.ParseFloat(string(v), 64)
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Float64(r.Elem().Interface())
 	}
 	return 0, _err
@@ -636,6 +661,9 @@ func Bool(in interface{}) (bool, error) {
 		return v, nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return false, nil
+		}
 		return Bool(r.Elem().Interface())
 	}
 	return false, _err
@@ -706,6 +734,9 @@ func Uint(in interface{}) (uint, error) {
 		return 0, nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Uint(r.Elem().Interface())
 	}
 	return 0, uintErr
@@ -773,6 +804,9 @@ func Uint64(in interface{}) (uint64, error) {
 		return 0, nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Uint64(r.Elem().Interface())
 	}
 	return 0, uintErr
@@ -840,6 +874,9 @@ func Uint32(in interface{}) (uint32, error) {
 		return 0, nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Uint32(r.Elem().Interface())
 	}
 	return 0, uintErr
@@ -907,6 +944,9 @@ func Uint16(in interface{}) (uint16, error) {
 		return uint16(v), nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Uint16(r.Elem().Interface())
 	}
 	return 0, uintErr
@@ -975,6 +1015,9 @@ func Uint8(in interface{}) (uint8, error) {
 		return 0, nil
 	}
 	if r := reflect.ValueOf(in); r.Kind() == reflect.Ptr {
+		if r.IsNil() {
+			return 0, nil
+		}
 		return Uint8(r.Elem().Interface())
 	}
 	return 0, uintErr
