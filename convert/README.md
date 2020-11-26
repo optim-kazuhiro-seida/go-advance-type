@@ -63,11 +63,7 @@ func main() {
     err := UnMarshalJson(t1}, &hogehoge)
     err := MarshalJson(t1) 
 
-    
-    AreEqualJSON(t1, CompactJson(t1))
-    // true
-    AreEqualJSON(t1, map[string]interface{}{"Test": "test", "Sample": "sample"}) 
-    // true
+
 }
 ```
 

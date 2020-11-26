@@ -147,3 +147,40 @@ func StructYmlTag2Map(data interface{}) map[string]interface{} {
 func StructDbTag2Map(data interface{}) map[string]interface{} {
 	return StructTag2Map(data, "db")
 }
+
+func GetObjectKeys(m interface{}) (result []string) {
+	switch v := ref.Indirect(m); v.Kind() {
+	case reflect.Map:
+		for _, key := range v.MapKeys() {
+			result = append(result, key.String())
+		}
+	case reflect.Struct:
+		j, err := Struct2JsonMap(m)
+		if err != nil {
+			return
+		}
+		mp := ref.Indirect(j)
+		for _, key := range mp.MapKeys() {
+			result = append(result, key.String())
+		}
+	}
+	return
+}
+func GetObjectValues(m interface{}) (result []interface{}) {
+	switch v := ref.Indirect(m); v.Kind() {
+	case reflect.Map:
+		for _, key := range v.MapKeys() {
+			result = append(result, v.MapIndex(key).Interface())
+		}
+	case reflect.Struct:
+		j, err := Struct2JsonMap(m)
+		if err != nil {
+			return
+		}
+		mp := ref.Indirect(j)
+		for _, key := range mp.MapKeys() {
+			result = append(result, mp.MapIndex(key).Interface())
+		}
+	}
+	return
+}

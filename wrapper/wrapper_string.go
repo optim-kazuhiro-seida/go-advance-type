@@ -186,6 +186,9 @@ func (self *String) Reverse() *String {
 func (self *String) Str() string {
 	return self.AsPrimitive()
 }
+func (self *String) String() string {
+	return self.AsPrimitive()
+}
 func (self *String) Split(str string) *collection.StringStream {
 	return collection.CreateStringStream(strings.Split(self.AsPrimitive(), str)...)
 }

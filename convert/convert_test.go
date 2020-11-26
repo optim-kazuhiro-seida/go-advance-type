@@ -5,6 +5,8 @@ import (
 	"math"
 	"testing"
 
+	"github.com/optim-kazuhiro-seida/go-advance-type/check"
+
 	"github.com/optim-kazuhiro-seida/go-advance-type/ref"
 )
 
@@ -215,15 +217,17 @@ func TestJson(t *testing.T) {
 	}
 	_t := T{Test: "test"}
 	_tmap, _ := Struct2JsonMap(_t)
-	if !AreEqualJson(_t, _tmap) {
+	if !check.AreEqualJson(_t, _tmap) {
 		t.Error("Fail CompareJson ", _t)
 	}
-	if !AreEqualJson(_t, map[string]interface{}{"test": "test", "sample": ""}) {
+	if !check.AreEqualJson(_t, map[string]interface{}{"test": "test", "sample": ""}) {
 		t.Error("Fail CompareJson ", _t)
 	}
-	if !AreEqualJson(_t, MustJson(_t)) {
+	if !check.AreEqualJson(_t, MustJson(_t)) {
 		t.Error("Fail CompareJson ", _t)
 	}
+	t.Log(GetObjectValues(_t))
+	t.Log(GetObjectKeys(_t))
 }
 func TestExchange(t *testing.T) {
 	if v := SafeInt(interface{}(100), 10); v != 100 {
