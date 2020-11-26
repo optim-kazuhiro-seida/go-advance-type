@@ -628,10 +628,10 @@ func Bool(in interface{}) (bool, error) {
 		return v > 0, nil
 	case float64:
 		return v > 0, nil
-	//case []byte:
-	//	return Str2Bool(stringv.([]uint8)))
-	//case string:
-	//	return kc.Str2Boolv.(string))
+	case []byte:
+		return strconv.ParseBool(MustStr(v))
+	case string:
+		return strconv.ParseBool(v)
 	case bool:
 		return v, nil
 	}
