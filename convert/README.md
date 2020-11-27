@@ -7,6 +7,7 @@ support
 int, int8, int16, int32, int64, float32, float64, bool, string
 
 ```go 
+package main
 import (
     "github.com/optim-kazuhiro-seida/go-advance-type/convert"
 )
@@ -18,18 +19,13 @@ func main() {
         // var a string = "120" 
         // var b int = 120      
         // var c int64 = 120    
-       
 
-
-	// With default value
 
 	d := convert.SafeInt32(struct{}{}, 21)
 	e := convert.SafeFloat32([]byte(""), 1.2)
         // var d int32  = 21
         // var e float32 = 1.2
 
-
-	// If you wants to handle err
 
 	f, err := convert.Float64("hogehoge") 
 	g, err := convert.Bool("gegege")      
@@ -43,6 +39,7 @@ func main() {
 
 Powered by [jsoniter](https://github.com/json-iterator/go)
 ```go
+package main
 import (
     "github.com/optim-kazuhiro-seida/go-advance-type/convert"
 )
@@ -71,21 +68,39 @@ func main() {
 ## Convert
 
 ```go
+package main
 import (
     "github.com/optim-kazuhiro-seida/go-advance-type/convert"
 )
 
 func main() {
+    var b Hoge
+    var c Foga
     a := Hoge {
         a: "a",
     }
-    convert.Struct2Map(Hoge) // map[string]interface{}{"a": "a"}
+
+    convert.Struct2Map(a) 
+    convert.Map2Struct(map[string]interface{}{"a": "a"}, &b) 
+    convert.StructTag2Map(a, "json")
+    convert.StructJsonTag2Map(a) // map[string]interface{}{"jsontag_a": "a"}
+    // map[string]interface{}{"a": "a"}
+    //  Hoge {a: "a"}
+    //  map[string]interface{}{"jsontag_a": "a"}
+
+    convert.GetObjectValues(a)
+    convert.GetObjectKeys(a)
+    
+    convert.DeepCopy(a, &b)
+    convert.CopyFields(a, &c)
+    convert.CopyCastFields(a, &c)
 }
 ```
 
 ## Exchange
 
 ```go
+package main
 import (
 	"github.com/optim-kazuhiro-seida/go-advance-type/convert"
 )

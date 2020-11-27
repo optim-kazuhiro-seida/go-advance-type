@@ -18,6 +18,8 @@ go get -u github.com/optim-kazuhiro-seida/go-advance-type
     * [Struct And Map](./convert/struct.go)
 * [Collection](./collection)
 * [Check](./check)
+    * [General](./check/check.go)
+    * [Json](./check/json.go)
 * [Math](./math)
 * [Reflect](./ref)
 * [Wrapper](./wrapper)
