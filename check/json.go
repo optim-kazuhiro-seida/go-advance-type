@@ -2,10 +2,13 @@ package check
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"reflect"
+	"unsafe"
 
-	"github.com/optim-kazuhiro-seida/go-advance-type/convert"
+	jsoniter "github.com/json-iterator/go"
 )
 
 func AreEqualJson(data1, data2 interface{}) bool {
@@ -20,17 +23,17 @@ func AreEqualJson(data1, data2 interface{}) bool {
 			return false
 		}
 	case string:
-		if convert.UnMarshalJson(convert.Str2Bytes(v), &_data1) != nil {
+		if unmarshal(s2b(v), &_data1) != nil {
 			return false
 		}
 	case []byte:
-		if convert.UnMarshalJson(v, &_data1) != nil {
+		if unmarshal(v, &_data1) != nil {
 			return false
 		}
 	default:
-		if byts, err := convert.MarshalJson(data1); err != nil {
+		if byts, err := marshal(data1); err != nil {
 			return false
-		} else if convert.UnMarshalJson(byts, &_data1) != nil {
+		} else if unmarshal(byts, &_data1) != nil {
 			return false
 		}
 	}
@@ -41,19 +44,47 @@ func AreEqualJson(data1, data2 interface{}) bool {
 			return false
 		}
 	case string:
-		if convert.UnMarshalJson(convert.Str2Bytes(v), &_data2) != nil {
+		if unmarshal(s2b(v), &_data2) != nil {
 			return false
 		}
 	case []byte:
-		if convert.UnMarshalJson(v, &_data2) != nil {
+		if unmarshal(v, &_data2) != nil {
 			return false
 		}
 	default:
-		if byts, err := convert.MarshalJson(data2); err != nil {
+		if byts, err := marshal(data2); err != nil {
 			return false
-		} else if convert.UnMarshalJson(byts, &_data2) != nil {
+		} else if unmarshal(byts, &_data2) != nil {
 			return false
 		}
 	}
 	return reflect.DeepEqual(_data1, _data2)
+}
+
+func unmarshal(data interface{}, target interface{}) error {
+	if IsPtr(target) {
+		return errors.New(fmt.Sprintf("not pointer %v", target))
+	}
+	switch v := data.(type) {
+	case reflect.Value:
+		return unmarshal(v.Interface(), target)
+	case []byte:
+		return jsoniter.Unmarshal(v, target)
+	case string:
+		return jsoniter.Unmarshal(s2b(v), target)
+	default:
+		byts, err := marshal(data)
+		if err != nil {
+			return err
+		}
+		return unmarshal(byts, target)
+	}
+}
+
+func s2b(s string) []byte {
+	return *(*[]byte)(unsafe.Pointer(&s))
+}
+
+func marshal(data interface{}) ([]byte, error) {
+	return jsoniter.Marshal(data)
 }
