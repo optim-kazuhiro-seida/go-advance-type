@@ -63,7 +63,7 @@ func (self *Float32Stream) Concat(arg []float32) *Float32Stream {
 	return self.AddAll(arg...)
 }
 func (self *Float32Stream) Contains(arg float32) bool {
-	return self.FindIndex(func(_arg float32, index int) bool { return reflect.DeepEqual(_arg, arg) }) != -1
+	return self.FindIndex(func(_arg float32, index int) bool { return _arg == arg }) != -1
 }
 func (self *Float32Stream) Clean() *Float32Stream {
 	*self = Float32StreamOf()

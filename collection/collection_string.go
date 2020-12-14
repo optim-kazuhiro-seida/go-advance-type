@@ -64,7 +64,7 @@ func (self *StringStream) Concat(arg []string) *StringStream {
 	return self.AddAll(arg...)
 }
 func (self *StringStream) Contains(arg string) bool {
-	return self.FindIndex(func(_arg string, index int) bool { return reflect.DeepEqual(_arg, arg) }) != -1
+	return self.FindIndex(func(_arg string, index int) bool { return _arg == arg }) != -1
 }
 func (self *StringStream) Clean() *StringStream {
 	*self = StringStreamOf()
