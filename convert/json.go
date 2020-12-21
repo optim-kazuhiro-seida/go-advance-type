@@ -45,7 +45,7 @@ func UnMarshalJson(data interface{}, target interface{}) error {
 	case []byte:
 		return jsoniter.Unmarshal(v, target)
 	case string:
-		return jsoniter.Unmarshal(Str2Bytes(v), target)
+		return jsoniter.Unmarshal([]byte(v), target)
 	default:
 		byts, err := MarshalJson(data)
 		if err != nil {
@@ -65,7 +65,7 @@ func IndentJson(data interface{}) (result string, err error) {
 			result = buf.String()
 		}
 	case string:
-		if err = json.Indent(&buf, Str2Bytes(v), "", "  "); err == nil {
+		if err = json.Indent(&buf, []byte(v), "", "  "); err == nil {
 			result = buf.String()
 		}
 	default:
@@ -87,7 +87,7 @@ func CompactJson(data interface{}) (result string, err error) {
 			result = buf.String()
 		}
 	case string:
-		if err = json.Compact(&buf, Str2Bytes(v)); err == nil {
+		if err = json.Compact(&buf, []byte(v)); err == nil {
 			result = buf.String()
 		}
 	default:

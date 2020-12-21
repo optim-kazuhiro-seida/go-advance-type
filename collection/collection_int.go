@@ -324,7 +324,8 @@ func (self *IntegerStream) Map2Int32(fn func(int, int) int32) []int32 {
 func (self *IntegerStream) Map2Int64(fn func(int, int) int64) []int64 {
 	if self == nil {
 		return nil
-	}_array := make([]int64, 0, len(*self))
+	}
+	_array := make([]int64, 0, len(*self))
 	for i, v := range *self {
 		_array = append(_array, fn(v, i))
 	}
