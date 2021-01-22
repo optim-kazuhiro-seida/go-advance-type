@@ -8,13 +8,12 @@ func IsBool(val interface{}) bool {
 	return val == true || val == false
 }
 
-func IsNil(i interface{}) (result bool) {
+func IsNil(i interface{}) bool {
 	if i == nil {
-		result = true
+		return true
 	}
 	ref := reflect.ValueOf(i)
-	result = ref.Kind() == reflect.Ptr && ref.IsNil()
-	return
+	return ref.Kind() == reflect.Ptr && ref.IsNil()
 }
 
 func IsPtr(in interface{}) bool {
