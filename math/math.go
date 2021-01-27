@@ -18,8 +18,8 @@ func MinStr(args ...string) string {
 	}
 	min := args[0]
 	for i := 1; i < len(args); i++ {
-		if args[1] < min {
-			min = args[1]
+		if args[i] < min {
+			min = args[i]
 		}
 	}
 	return min
@@ -43,8 +43,8 @@ func MinInt64(args ...int64) int64 {
 	}
 	min := args[0]
 	for i := 1; i < len(args); i++ {
-		if args[1] < min {
-			min = args[1]
+		if args[i] < min {
+			min = args[i]
 		}
 	}
 	return min
@@ -68,8 +68,8 @@ func MinInt32(args ...int32) int32 {
 	}
 	min := args[0]
 	for i := 1; i < len(args); i++ {
-		if args[1] < min {
-			min = args[1]
+		if args[i] < min {
+			min = args[i]
 		}
 	}
 	return min
@@ -93,8 +93,8 @@ func MinInt(args ...int) int {
 	}
 	min := args[0]
 	for i := 1; i < len(args); i++ {
-		if args[1] < min {
-			min = args[1]
+		if args[i] < min {
+			min = args[i]
 		}
 	}
 	return min
@@ -119,8 +119,8 @@ func MinFloat32(args ...float32) float32 {
 	}
 	min := args[0]
 	for i := 1; i < len(args); i++ {
-		if args[1] < min {
-			min = args[1]
+		if args[i] < min {
+			min = args[i]
 		}
 	}
 	return min
@@ -145,8 +145,8 @@ func MinFloat64(args ...float64) float64 {
 	}
 	min := args[0]
 	for i := 1; i < len(args); i++ {
-		if args[1] < min {
-			min = args[1]
+		if args[i] < min {
+			min = args[i]
 		}
 	}
 	return min
