@@ -81,12 +81,17 @@ func main() {
     }
 
     convert.Struct2Map(a) 
+    // map[string]interface{}{"jsontag_a": "a"}
+    
     convert.Map2Struct(map[string]interface{}{"a": "a"}, &b) 
-    convert.StructTag2Map(a, "json")
-    convert.StructJsonTag2Map(a) // map[string]interface{}{"jsontag_a": "a"}
     // map[string]interface{}{"a": "a"}
+    
+    convert.StructTag2Map(a, "json")
     //  Hoge {a: "a"}
+    
+    convert.StructJsonTag2Map(a) 
     //  map[string]interface{}{"jsontag_a": "a"}
+   
 
     convert.GetObjectValues(a)
     convert.GetObjectKeys(a)
