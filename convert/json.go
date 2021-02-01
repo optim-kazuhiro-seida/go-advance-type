@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"reflect"
 
 	"github.com/optim-kazuhiro-seida/go-advance-type/check"
@@ -46,6 +48,12 @@ func UnMarshalJson(data interface{}, target interface{}) error {
 		return jsoniter.Unmarshal(v, target)
 	case string:
 		return jsoniter.Unmarshal([]byte(v), target)
+	case io.Reader:
+		if byts, err := ioutil.ReadAll(v); err != nil {
+			return err
+		} else {
+			return jsoniter.Unmarshal(byts, target)
+		}
 	default:
 		byts, err := MarshalJson(data)
 		if err != nil {

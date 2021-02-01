@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"bytes"
 	"errors"
 	"math"
 	"testing"
@@ -205,6 +206,12 @@ func TestJson(t *testing.T) {
 	} else {
 		t.Log(v)
 	}
+	b, _ := MarshalJson(T{Test: "test", Sample: "sample"})
+	if err := UnMarshalJson(bytes.NewReader(b), &target); err != nil || MustCompactJson(target) != "{\"test\":\"test\",\"sample\":\"sample\"}" {
+		t.Error("Fail UnMarshalJson ", target, err)
+	} else {
+		t.Log(MustCompactJson(target))
+	}
 	if err := UnMarshalJson(T{Test: "test", Sample: "sample"}, &target); err != nil || MustCompactJson(target) != "{\"test\":\"test\",\"sample\":\"sample\"}" {
 		t.Error("Fail UnMarshalJson ", target, err)
 	} else {
@@ -215,19 +222,18 @@ func TestJson(t *testing.T) {
 	} else {
 		t.Log(j, MustStr(j))
 	}
+
 	_t := T{Test: "test"}
-	_tmap, _ := Struct2JsonMap(_t)
-	if !check.AreEqualJson(_t, _tmap) {
-		t.Error("Fail CompareJson ", _t)
+	if _tmap, _ := Struct2JsonMap(_t); !check.AreEqualJson(_t, _tmap) {
+		t.Logf("%#v", _t)
+		t.Error("Fail CompareJson ", _t, _tmap)
 	}
-	if !check.AreEqualJson(_t, map[string]interface{}{"test": "test", "sample": ""}) {
-		t.Error("Fail CompareJson ", _t)
+	if testMap :=  map[string]interface{}{"test": "test", "sample": ""}; !check.AreEqualJson(_t,testMap) {
+		t.Error("Fail CompareJson ", _t, testMap)
 	}
 	if !check.AreEqualJson(_t, MustJson(_t)) {
-		t.Error("Fail CompareJson ", _t)
+		t.Error("Fail CompareJson ", _t, MustJson(_t))
 	}
-	t.Log(GetObjectValues(_t))
-	t.Log(GetObjectKeys(_t))
 }
 func TestExchange(t *testing.T) {
 	if v := SafeInt(interface{}(100), 10); v != 100 {

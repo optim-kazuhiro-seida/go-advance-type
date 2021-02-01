@@ -104,14 +104,12 @@ func Map2Struct(m map[string]interface{}, val interface{}) error {
 	return UnMarshalJson(byts, val)
 }
 
-func Struct2JsonMap(data interface{}) (result map[string]interface{}, _err error) {
-	result = map[string]interface{}{}
-	if byts, err := MarshalJson(data); err != nil {
-		_err = err
+func Struct2JsonMap(data interface{}) (result map[string]interface{}, err error) {
+	var byts []byte
+	if byts, err = MarshalJson(data); err != nil {
 		return
-	} else {
-		_err = UnMarshalJson(byts, &result)
 	}
+	err = UnMarshalJson(byts, &result)
 	return
 }
 

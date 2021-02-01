@@ -14,7 +14,10 @@ import (
 	. "github.com/optim-kazuhiro-seida/go-advance-type/util"
 )
 
-var _err = errors.New("missing type")
+var (
+	_err = errors.New("missing type")
+	uintErr = errors.New("cant cant to uint")
+)
 
 func SafeInt64(in interface{}, defaultNumber int64) int64 {
 	result, err := Int64(in)
@@ -668,9 +671,6 @@ func Bool(in interface{}) (bool, error) {
 	}
 	return false, _err
 }
-
-var uintErr = errors.New("cant cant to uint")
-
 func Uint(in interface{}) (uint, error) {
 	switch v := in.(type) {
 	case reflect.Value:

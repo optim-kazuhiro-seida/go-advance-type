@@ -4,11 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	jsoniter "github.com/json-iterator/go"
 	"io"
 	"reflect"
-	"unsafe"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 func AreEqualJson(data1, data2 interface{}) bool {
@@ -16,14 +14,13 @@ func AreEqualJson(data1, data2 interface{}) bool {
 		return true
 	}
 	var _data1, _data2 interface{}
-
 	switch v := data1.(type) {
 	case io.Reader:
 		if json.NewDecoder(v).Decode(&_data1) != nil {
 			return false
 		}
 	case string:
-		if unmarshal(s2b(v), &_data1) != nil {
+		if unmarshal([]byte(v), &_data1) != nil {
 			return false
 		}
 	case []byte:
@@ -44,7 +41,7 @@ func AreEqualJson(data1, data2 interface{}) bool {
 			return false
 		}
 	case string:
-		if unmarshal(s2b(v), &_data2) != nil {
+		if unmarshal([]byte(v), &_data2) != nil {
 			return false
 		}
 	case []byte:
@@ -62,7 +59,7 @@ func AreEqualJson(data1, data2 interface{}) bool {
 }
 
 func unmarshal(data interface{}, target interface{}) error {
-	if IsPtr(target) {
+	if !IsPtr(target) {
 		return errors.New(fmt.Sprintf("not pointer %v", target))
 	}
 	switch v := data.(type) {
@@ -71,7 +68,7 @@ func unmarshal(data interface{}, target interface{}) error {
 	case []byte:
 		return jsoniter.Unmarshal(v, target)
 	case string:
-		return jsoniter.Unmarshal(s2b(v), target)
+		return jsoniter.Unmarshal([]byte(v), target)
 	default:
 		byts, err := marshal(data)
 		if err != nil {
@@ -81,9 +78,7 @@ func unmarshal(data interface{}, target interface{}) error {
 	}
 }
 
-func s2b(s string) []byte {
-	return *(*[]byte)(unsafe.Pointer(&s))
-}
+
 
 func marshal(data interface{}) ([]byte, error) {
 	return jsoniter.Marshal(data)
