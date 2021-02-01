@@ -54,6 +54,12 @@ func UnMarshalJson(data interface{}, target interface{}) error {
 		} else {
 			return jsoniter.Unmarshal(byts, target)
 		}
+	case io.ReadCloser:
+		if byts, err := ioutil.ReadAll(v); err != nil {
+			return err
+		} else {
+			return jsoniter.Unmarshal(byts, target)
+		}
 	default:
 		byts, err := MarshalJson(data)
 		if err != nil {
