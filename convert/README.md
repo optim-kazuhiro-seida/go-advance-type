@@ -37,7 +37,7 @@ func main() {
 
 ## Json
 
-Powered by [jsoniter](https://github.com/json-iterator/go)
+Powered by [json](https://github.com/json-iterator/go)
 ```go
 package main
 import (

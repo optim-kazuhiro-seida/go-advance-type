@@ -96,12 +96,37 @@ func (file FileService) ReadDir() ([]DirByt, error) {
 	return result, err
 }
 
+func (file FileService) ReadJsonMap() (interface{}, error) {
+	return readJsonMap(file.Path)
+}
+func (file FileService) LoadJsonStruct(st interface{}) error {
+	byts, err := ioutil.ReadFile(file.Path)
+	if err != nil {
+		return err
+	}
+	return convert.UnMarshalJson(byts, &st)
+}
+
 func (file FileService) WriteFileAsString(value string) error {
 	if err := ioutil.WriteFile(file.Path, []byte(value), 0777); err != nil {
 		return err
 	}
 	return nil
 }
+
+func (file FileService) WriteJson(data interface{}) error {
+	var buf bytes.Buffer
+	str, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	err = json.Indent(&buf, str, "", "  ")
+	if err != nil {
+		return err
+	}
+	return file.WriteFileAsString(buf.String())
+}
+
 
 func (file FileService) CreateDir() error {
 	if _, err := os.Stat(file.Path); os.IsNotExist(err) {
@@ -133,32 +158,6 @@ func (file FileService) IsDir() bool {
 
 func (file FileService) IsFile() bool {
 	return !file.IsDir()
-}
-
-func (file FileService) WriteJson(data interface{}) error {
-	var buf bytes.Buffer
-	str, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-	err = json.Indent(&buf, str, "", "  ")
-	if err != nil {
-		return err
-	}
-	return file.WriteFileAsString(buf.String())
-}
-
-func (file FileService) ReadJsonMap() (interface{}, error) {
-	return readJsonMap(file.Path)
-}
-
-func (file FileService) LoadJsonStruct(st interface{}) error {
-	byts, err := ioutil.ReadFile(file.Path)
-	if err != nil {
-		return err
-	}
-	return convert.UnMarshalJson(byts, &st)
-
 }
 
 func readJsonMap(path string) (result interface{}, err error) {

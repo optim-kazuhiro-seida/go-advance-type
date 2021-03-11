@@ -16,6 +16,10 @@ func DeepCopy(source, target interface{}) error {
 	}
 }
 
+func DeepClone(source interface{}) (target interface{}) {
+	DeepCopy(source, &target)
+	return
+}
 func CopyFields(source, target interface{}) (err error) {
 	targetRef := reflect.ValueOf(target)
 	if targetRef.Kind() != reflect.Ptr {
